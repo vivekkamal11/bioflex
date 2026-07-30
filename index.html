@@ -1,812 +1,748 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BioFlex Agency - Premium Storefronts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioFlex Tech Agency | Portfolio & Bio Sites from ₹199</title>
+
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper CSS for Carousel -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#00a896',
+                            600: '#028090',
+                            900: '#026470',
+                        }
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
+                        'glow': '0 0 15px rgba(0, 168, 150, 0.3)',
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        html {
-            -webkit-overflow-scrolling: touch;
-            scroll-behavior: smooth;
+        /* Custom styles for Swiper pagination */
+        .swiper-pagination-bullet {
+            background-color: #cbd5e1;
+            opacity: 1;
         }
-        body {
-            margin: 0; padding: 0;
-            background-color: #050505; 
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            overflow-x: hidden;
+        .swiper-pagination-bullet-active {
+            background-color: #00a896;
+            width: 20px;
+            border-radius: 4px;
         }
-
-        .bg-fixed-layer {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            background-image: radial-gradient(circle at 50% -20%, rgba(157, 0, 255, 0.15) 0%, #050505 70%);
-            z-index: -1;
-            pointer-events: none;
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
         }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .inter-font { font-family: 'Inter', sans-serif; }
-        
-        /* Pages */
-        .page-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #050505;
-            z-index: 100;
-            overflow-y: auto;
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        #mobile-menu.open {
+            max-height: 500px;
+            opacity: 1;
         }
-        .page-overlay.active { transform: translateX(0); }
-
-        /* Sidebar & Modals */
-        .side-menu {
-            transform: translateX(-100%);
-            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        /* Hide scrollbar for grid */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .side-menu.active { transform: translateX(0); }
-        .modal-bg {
-            opacity: 0; visibility: hidden; transition: opacity 0.3s;
-        }
-        .modal-bg.active { opacity: 1; visibility: visible; }
-
-        /* Pricing Tiers */
-        .tier-starter { border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); }
-        .tier-pro { border: 1px solid rgba(255, 105, 180, 0.5); background: linear-gradient(135deg, rgba(255,105,180,0.1), rgba(157,0,255,0.1)); box-shadow: 0 0 15px rgba(255,105,180,0.2); }
-        .tier-god { border: 1px solid rgba(255, 215, 0, 0.6); background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,0,0,0.15)); box-shadow: 0 0 20px rgba(255,215,0,0.3); }
-
-        /* Inputs */
-        .glass-input {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: white; outline: none;
-            transition: border 0.3s;
-        }
-        .glass-input:focus { border-color: #9d00ff; }
-        
-        /* Auto Slider CSS */
-        .slider-wrapper {
-            display: flex;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        }
-        .slide {
-            min-width: 100%;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
     </style>
 </head>
-<body>
+<body class="bg-[#F8FAFC] text-slate-800 font-sans antialiased selection:bg-brand-500 selection:text-white">
 
-    <div class="bg-fixed-layer"></div>
-
-    <!-- MAIN NAVBAR -->
-    <nav class="flex justify-between items-center px-6 py-5 sticky top-0 bg-[#050505]/90 backdrop-blur-md z-40">
-        <h1 class="inter-font text-xl font-black tracking-widest uppercase">BIO<span class="text-[#9d00ff]">FLEX</span></h1>
-        <i class="fa-solid fa-bars text-2xl text-white cursor-pointer hover:text-gray-300 transition" id="open-menu"></i>
-    </nav>
-
-    <!-- MAIN HOME PAGE CONTENT -->
-    <div class="max-w-md mx-auto w-full flex flex-col min-h-screen" id="main-content">
-        
-        <!-- HERO SECTION -->
-        <div class="px-6 pt-12 pb-8 text-center flex flex-col items-center">
-            <h2 class="inter-font text-[2.5rem] leading-[1.1] font-extrabold mb-6 tracking-tight bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-                Your Link-in-Bio is <br> Looking Amateur.
-            </h2>
-            <p class="text-sm text-gray-400 max-w-[300px] mx-auto leading-relaxed font-light mb-2">
-                We build high-converting, custom-designed link pages for creators who mean business. No templates. No nonsense. Pure perfection.
-            </p>
-        </div>
-
-        <!-- NEW: SWIPEABLE AUTO-SLIDING HERO BANNER -->
-        <div class="px-6 mb-12 w-full">
-            <div class="w-full bg-[#120a1c] border border-[#9d00ff]/30 rounded-2xl overflow-hidden shadow-[0_0_20px_rgba(157,0,255,0.15)] relative">
-                
-                <!-- Slider Container -->
-                <div class="overflow-hidden relative w-full h-[320px] touch-pan-y" id="slider-container">
-                    <div class="slider-wrapper h-full" id="slider">
-                        
-                        <!-- Slide 1 -->
-                        <div class="slide relative w-full h-full bg-black flex items-center justify-center">
-                            <img src="photo_6285202558141797520_y.jpg" alt="Vivek Kamal Site" class="w-full h-full object-contain opacity-90 pointer-events-none">
-                            <div class="absolute bottom-0 w-full bg-gradient-to-t from-black via-black/80 to-transparent p-4 text-left pointer-events-none">
-                                <h3 class="text-sm font-bold text-white">Magician Portfolio Vibe</h3>
-                                <p class="text-[10px] text-gray-300">God-Level Setup with custom galleries.</p>
-                            </div>
-                        </div>
-
-                        <!-- Slide 2 -->
-                        <div class="slide relative w-full h-full bg-gradient-to-br from-[#1a0512] to-black flex flex-col items-center justify-center p-6 text-center">
-                            <i class="fa-solid fa-image text-4xl text-gray-600 mb-2 pointer-events-none"></i>
-                            <h3 class="text-sm font-bold text-white pointer-events-none">Upload Design 2 Here</h3>
-                            <p class="text-[10px] text-gray-400 pointer-events-none">Put your 2nd image path in HTML.</p>
-                        </div>
-
-                        <!-- Slide 3 -->
-                        <div class="slide relative w-full h-full bg-gradient-to-br from-[#0d1511] to-black flex flex-col items-center justify-center p-6 text-center">
-                            <i class="fa-solid fa-image text-4xl text-gray-600 mb-2 pointer-events-none"></i>
-                            <h3 class="text-sm font-bold text-white pointer-events-none">Upload Design 3 Here</h3>
-                            <p class="text-[10px] text-gray-400 pointer-events-none">Put your 3rd image path in HTML.</p>
-                        </div>
-
+    <!-- 1. NAVBAR WITH ENHANCED HAMBURGER MENU -->
+    <header class="sticky top-2 sm:top-4 z-50 max-w-6xl mx-auto px-3 sm:px-4">
+        <nav class="bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl sm:rounded-full px-4 sm:px-6 py-3 shadow-soft transition-all duration-300 relative">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <a href="#" class="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                    <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white text-sm">
+                        <i class="fa-solid fa-bolt"></i>
                     </div>
-                </div>
-
-                <!-- Slider Indicators (Dots) -->
-                <div class="absolute bottom-16 right-4 z-20 flex gap-1.5" id="slider-dots">
-                    <div class="w-1.5 h-1.5 rounded-full bg-white transition-all duration-300 dot"></div>
-                    <div class="w-1.5 h-1.5 rounded-full bg-white/30 transition-all duration-300 dot"></div>
-                    <div class="w-1.5 h-1.5 rounded-full bg-white/30 transition-all duration-300 dot"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- OUR PROCESS SECTION -->
-        <div class="px-6 mb-12">
-            <h3 class="text-lg font-semibold mb-5 flex items-center gap-2"><i class="fa-solid fa-bolt text-yellow-400"></i> How It Works</h3>
-            <div class="flex flex-col gap-3 relative">
-                <div class="absolute left-6 top-6 bottom-6 w-0.5 bg-gradient-to-b from-[#9d00ff] to-transparent z-0 opacity-30"></div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4 flex gap-4 items-center relative z-10 backdrop-blur-sm">
-                    <div class="w-12 h-12 shrink-0 rounded-full bg-[#150a21] border border-[#9d00ff]/50 text-[#9d00ff] flex items-center justify-center font-bold text-lg shadow-[0_0_10px_rgba(157,0,255,0.2)]">1</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-100">Pick a Masterpiece</h4>
-                        <p class="text-[10px] text-gray-400 leading-relaxed mt-0.5">Select a theme from our premium gallery below that fits your personal or brand vibe.</p>
-                    </div>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4 flex gap-4 items-center relative z-10 backdrop-blur-sm">
-                    <div class="w-12 h-12 shrink-0 rounded-full bg-[#150a21] border border-pink-500/50 text-pink-500 flex items-center justify-center font-bold text-lg shadow-[0_0_10px_rgba(255,105,180,0.2)]">2</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-100">Select Customization</h4>
-                        <p class="text-[10px] text-gray-400 leading-relaxed mt-0.5">Choose your package (Starter, Pro, or God-Level) and complete the secure Razorpay checkout.</p>
-                    </div>
-                </div>
-
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4 flex gap-4 items-center relative z-10 backdrop-blur-sm">
-                    <div class="w-12 h-12 shrink-0 rounded-full bg-[#150a21] border border-green-500/50 text-green-500 flex items-center justify-center font-bold text-lg shadow-[0_0_10px_rgba(34,197,94,0.2)]">3</div>
-                    <div>
-                        <h4 class="text-sm font-bold text-gray-100">Get Your Site in 24h</h4>
-                        <p class="text-[10px] text-gray-400 leading-relaxed mt-0.5">You'll be redirected to our WhatsApp. We take your links/photos and deliver the site within 24 hours.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- THEME SHOWCASE (6 Themes) -->
-        <div class="pl-6 mb-12">
-            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2"><i class="fa-solid fa-layer-group text-[#9d00ff]"></i> Premium Gallery</h3>
-            
-            <div class="flex gap-4 overflow-x-auto no-scrollbar pr-6 pb-4">
-                <div class="min-w-[240px] bg-[#1a1125] border border-[#9d00ff]/30 rounded-2xl p-1 shadow-lg relative flex flex-col">
-                    <div class="h-32 bg-gradient-to-br from-purple-900 to-black rounded-xl mb-3 flex items-center justify-center border border-white/5">
-                        <i class="fa-solid fa-moon text-4xl text-purple-400 opacity-50"></i>
-                    </div>
-                    <div class="px-3 pb-3">
-                        <h4 class="font-semibold text-sm">Neon Dark Vibe</h4>
-                        <p class="text-[10px] text-gray-400 mb-3">Mystical, glowing, glassmorphism</p>
-                        <button onclick="openPricingPage('Neon Dark Vibe', 'fa-moon', 'purple-400', 'Mystical, glowing, glassmorphism. Perfect for creators wanting a futuristic dark mode look.')" class="w-full py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold tracking-wider text-[#9d00ff] border border-[#9d00ff]/50 uppercase transition">GET</button>
-                    </div>
-                </div>
-
-                <div class="min-w-[240px] bg-[#151515] border border-white/10 rounded-2xl p-1 shadow-lg relative flex flex-col">
-                    <div class="h-32 bg-gradient-to-br from-gray-700 to-gray-900 rounded-xl mb-3 flex items-center justify-center border border-white/5">
-                        <i class="fa-solid fa-feather text-4xl text-gray-400 opacity-50"></i>
-                    </div>
-                    <div class="px-3 pb-3">
-                        <h4 class="font-semibold text-sm">Minimalist Pro</h4>
-                        <p class="text-[10px] text-gray-400 mb-3">Clean, corporate, highly professional</p>
-                        <button onclick="openPricingPage('Minimalist Pro', 'fa-feather', 'gray-400', 'Clean, corporate, and highly professional. Best for business consultants and minimalists.')" class="w-full py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold tracking-wider text-white border border-white/20 uppercase transition">GET</button>
-                    </div>
-                </div>
-
-                <div class="min-w-[240px] bg-[#0d1511] border border-green-500/30 rounded-2xl p-1 shadow-lg relative flex flex-col">
-                    <div class="h-32 bg-gradient-to-br from-green-900 to-black rounded-xl mb-3 flex items-center justify-center border border-white/5">
-                        <i class="fa-solid fa-gamepad text-4xl text-green-400 opacity-50"></i>
-                    </div>
-                    <div class="px-3 pb-3">
-                        <h4 class="font-semibold text-sm">Gamer RGB</h4>
-                        <p class="text-[10px] text-gray-400 mb-3">Aggressive, e-sports, dynamic</p>
-                        <button onclick="openPricingPage('Gamer RGB', 'fa-gamepad', 'green-400', 'Aggressive, e-sports inspired dynamic design with heavy contrast and bold colors.')" class="w-full py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold tracking-wider text-green-400 border border-green-500/50 uppercase transition">GET</button>
-                    </div>
-                </div>
-                
-                <div class="min-w-[240px] bg-[#1a1505] border border-yellow-500/30 rounded-2xl p-1 shadow-lg relative flex flex-col">
-                    <div class="h-32 bg-gradient-to-br from-yellow-900 to-red-900 rounded-xl mb-3 flex items-center justify-center border border-white/5">
-                        <i class="fa-solid fa-crown text-4xl text-yellow-500 opacity-50"></i>
-                    </div>
-                    <div class="px-3 pb-3">
-                        <h4 class="font-semibold text-sm">Royal Luxury</h4>
-                        <p class="text-[10px] text-gray-400 mb-3">Premium gold finish, VIP aesthetic</p>
-                        <button onclick="openPricingPage('Royal Luxury', 'fa-crown', 'yellow-500', 'Premium gold finish and VIP aesthetic. Designed for high-end luxury brands and influencers.')" class="w-full py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold tracking-wider text-yellow-500 border border-yellow-500/50 uppercase transition">GET</button>
-                    </div>
-                </div>
-
-                <div class="min-w-[240px] bg-[#1a0512] border border-pink-500/30 rounded-2xl p-1 shadow-lg relative flex flex-col">
-                    <div class="h-32 bg-gradient-to-br from-pink-900 to-black rounded-xl mb-3 flex items-center justify-center border border-white/5">
-                        <i class="fa-solid fa-bolt text-4xl text-pink-500 opacity-50"></i>
-                    </div>
-                    <div class="px-3 pb-3">
-                        <h4 class="font-semibold text-sm">Cyberpunk Wave</h4>
-                        <p class="text-[10px] text-gray-400 mb-3">Neon pinks, glitch effects, raw</p>
-                        <button onclick="openPricingPage('Cyberpunk Wave', 'fa-bolt', 'pink-500', 'A loud, edgy cyberpunk design with neon pinks and raw industrial elements.')" class="w-full py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold tracking-wider text-pink-500 border border-pink-500/50 uppercase transition">GET</button>
-                    </div>
-                </div>
-
-                <div class="min-w-[240px] bg-[#050505] border border-gray-600/30 rounded-2xl p-1 shadow-lg relative flex flex-col">
-                    <div class="h-32 bg-gradient-to-br from-gray-800 to-black rounded-xl mb-3 flex items-center justify-center border border-white/5">
-                        <i class="fa-solid fa-circle-half-stroke text-4xl text-white opacity-50"></i>
-                    </div>
-                    <div class="px-3 pb-3">
-                        <h4 class="font-semibold text-sm">Clean Mono</h4>
-                        <p class="text-[10px] text-gray-400 mb-3">Pure black & white, artistic</p>
-                        <button onclick="openPricingPage('Clean Mono', 'fa-circle-half-stroke', 'white', 'Pure black and white aesthetic. Focused entirely on typography and stark contrast.')" class="w-full py-2 bg-white/10 hover:bg-white/20 rounded-lg text-xs font-bold tracking-wider text-white border border-gray-600/50 uppercase transition">GET</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- VIP TESTIMONIALS -->
-        <div class="pl-6 mb-12">
-            <div class="flex justify-between items-center pr-6 mb-4">
-                <h3 class="text-lg font-semibold flex items-center gap-2"><i class="fa-solid fa-star text-yellow-400"></i> Hall of Fame</h3>
-                <button onclick="openReviewModal()" class="text-[10px] bg-white/10 hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-lg transition uppercase tracking-widest font-semibold flex items-center gap-1">
-                    <i class="fa-solid fa-pen"></i> Write Review
-                </button>
-            </div>
-
-            <!-- Scrollable Reviews Container -->
-            <div class="flex gap-4 overflow-x-auto no-scrollbar pr-6 pb-4" id="reviews-container">
-                
-                <!-- TOP 4 REVIEWS -->
-                <!-- Review 1 (5.0) -->
-                <div class="min-w-[280px] bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm review-card">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-3 items-center">
-                            <div class="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center text-pink-500 font-bold border border-pink-500/50">A</div>
-                            <div>
-                                <h4 class="text-sm font-semibold">Aditya Sharma</h4>
-                                <a href="#" class="text-[10px] text-[#9d00ff]">@aditya.creates</a>
-                            </div>
-                        </div>
-                        <div class="text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 italic leading-relaxed">"BioFlex completely changed my creator journey. My clients take me 10x more seriously now with this VIP setup. Fast delivery too!"</p>
-                </div>
-
-                <!-- Review 2 (4.0 - Realistic critique) -->
-                <div class="min-w-[280px] bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm review-card">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-3 items-center">
-                            <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-500 font-bold border border-blue-500/50">R</div>
-                            <div>
-                                <h4 class="text-sm font-semibold">Rahul Tech</h4>
-                                <a href="#" class="text-[10px] text-[#9d00ff]">@rahultech_</a>
-                            </div>
-                        </div>
-                        <div class="text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-600"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 italic leading-relaxed">"Great setup overall. I wish there were a few more font options in the Starter tier, but it still looks like a premium app on my phone."</p>
-                </div>
-
-                <!-- Review 3 (5.0) -->
-                <div class="min-w-[280px] bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm review-card">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-3 items-center">
-                            <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-green-500 font-bold border border-green-500/50">P</div>
-                            <div>
-                                <h4 class="text-sm font-semibold">Priya Singh</h4>
-                                <a href="#" class="text-[10px] text-[#9d00ff]">@priya.fitness</a>
-                            </div>
-                        </div>
-                        <div class="text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 italic leading-relaxed">"Got the Minimalist Pro theme for my coaching business. The UI is ridiculously smooth. Worth every single penny."</p>
-                </div>
-
-                <!-- Review 4 (4.0 - Realistic critique) -->
-                <div class="min-w-[280px] bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm review-card">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-3 items-center">
-                            <div class="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 font-bold border border-yellow-500/50">K</div>
-                            <div>
-                                <h4 class="text-sm font-semibold">Karan Vlogz</h4>
-                                <a href="#" class="text-[10px] text-[#9d00ff]">@karan.vlogz</a>
-                            </div>
-                        </div>
-                        <div class="text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-600"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 italic leading-relaxed">"It took them a few extra hours to deliver because of some custom edits I asked for, but the final result is crazy good."</p>
-                </div>
-
-                <!-- HIDDEN REVIEWS (Revealed when clicking 'See All') -->
-                <div class="min-w-[280px] bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm hidden extra-review">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-3 items-center">
-                            <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-500 font-bold border border-purple-500/50">S</div>
-                            <div>
-                                <h4 class="text-sm font-semibold">Sneha Designs</h4>
-                                <a href="#" class="text-[10px] text-[#9d00ff]">@sneha.art</a>
-                            </div>
-                        </div>
-                        <!-- 3 Stars -->
-                        <div class="text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star text-gray-600"></i><i class="fa-regular fa-star text-gray-600"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 italic leading-relaxed">"Initially the neon colors in my theme were a bit too bright for my taste. Contacted Vivek and he adjusted it perfectly. Nice support."</p>
-                </div>
-
-                <div class="min-w-[280px] bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm hidden extra-review">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-3 items-center">
-                            <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-500 font-bold border border-red-500/50">M</div>
-                            <div>
-                                <h4 class="text-sm font-semibold">Mohit Trades</h4>
-                                <a href="#" class="text-[10px] text-[#9d00ff]">@mohit.stocks</a>
-                            </div>
-                        </div>
-                        <div class="text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 italic leading-relaxed">"Very professional service. The Starter setup is decent, but I highly recommend upgrading to Pro. That's where the real magic is."</p>
-                </div>
-
-                <div class="min-w-[280px] bg-white/5 border border-white/10 rounded-2xl p-5 backdrop-blur-sm hidden extra-review">
-                    <div class="flex justify-between items-start mb-3">
-                        <div class="flex gap-3 items-center">
-                            <div class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-500 font-bold border border-cyan-500/50">V</div>
-                            <div>
-                                <h4 class="text-sm font-semibold">Vikram DJ</h4>
-                                <a href="#" class="text-[10px] text-[#9d00ff]">@vikram.music</a>
-                            </div>
-                        </div>
-                        <div class="text-yellow-400 text-xs">
-                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-300 italic leading-relaxed">"Neon Dark vibe is sick! Linking all my Spotify tracks and YouTube mixes is so much cleaner now. Best investment."</p>
-                </div>
-            </div>
-
-            <!-- See All Button -->
-            <button id="see-all-btn" onclick="showAllReviews()" class="mt-2 w-full border border-white/10 text-gray-400 text-xs py-3 rounded-xl hover:bg-white/5 transition tracking-widest uppercase font-semibold">
-                See All 7 Reviews
-            </button>
-        </div>
-
-        <!-- NEW: FAQ ACCORDION (Clean Look) -->
-        <div class="px-6 mb-12">
-            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2"><i class="fa-solid fa-circle-question text-blue-400"></i> FAQ & Support</h3>
-            
-            <div class="flex flex-col gap-3">
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer" onclick="toggleFaq(this)">
-                    <h4 class="text-xs font-bold text-gray-200 flex justify-between items-center">
-                        Do I need a domain or hosting? 
-                        <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300"></i>
-                    </h4>
-                    <p class="faq-answer hidden text-[10px] text-gray-400 leading-relaxed mt-3 border-t border-white/10 pt-2">No! We handle the hosting. Your site will have a fast, premium link ready to drop in your bio.</p>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer" onclick="toggleFaq(this)">
-                    <h4 class="text-xs font-bold text-gray-200 flex justify-between items-center">
-                        Can I update my links later?
-                        <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300"></i>
-                    </h4>
-                    <p class="faq-answer hidden text-[10px] text-gray-400 leading-relaxed mt-3 border-t border-white/10 pt-2">Yes, God-Level clients get free minor updates. For others, we charge a very tiny fee to update your links securely.</p>
-                </div>
-                
-                <div class="bg-white/5 border border-white/10 rounded-xl p-4 cursor-pointer" onclick="toggleFaq(this)">
-                    <h4 class="text-xs font-bold text-gray-200 flex justify-between items-center">
-                        How long does it take?
-                        <i class="fa-solid fa-chevron-down text-[10px] text-gray-400 transition-transform duration-300"></i>
-                    </h4>
-                    <p class="faq-answer hidden text-[10px] text-gray-400 leading-relaxed mt-3 border-t border-white/10 pt-2">Typically, we deliver the completed VIP storefront within 24 hours of receiving your details on WhatsApp.</p>
-                </div>
-            </div>
-
-            <div class="bg-gradient-to-r from-blue-900/30 to-[#9d00ff]/20 border border-blue-500/30 rounded-xl p-6 text-center mt-5 shadow-lg">
-                <div class="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3 border border-blue-500/50">
-                    <i class="fa-solid fa-headset text-xl text-blue-400"></i>
-                </div>
-                <h4 class="text-base font-bold text-white mb-2">Have a specific question?</h4>
-                <p class="text-[11px] text-gray-300 mb-4 max-w-[250px] mx-auto">Don't hesitate to reach out. Drop us an email and we'll clear all your doubts.</p>
-                <a href="mailto:vipaiagency@gmail.com" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2.5 rounded-xl text-xs font-bold text-white transition tracking-wider">
-                    <i class="fa-solid fa-envelope"></i> vipaiagency@gmail.com
+                    BioFlex<span class="text-brand-500">.</span>
                 </a>
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <footer class="mt-auto border-t border-white/10 py-8 text-center bg-black/40">
-            <h1 class="inter-font text-xl font-black tracking-widest uppercase opacity-30 mb-2">BIO<span class="text-[#9d00ff]">FLEX</span></h1>
-            <p class="text-[10px] text-gray-500 tracking-widest uppercase">© 2026 BioFlex Agency.<br>All rights reserved.</p>
-        </footer>
-    </div>
-
-
-    <!-- ============================================== -->
-    <!-- PAGES / OVERLAYS -->
-    <!-- ============================================== -->
-
-    <!-- PAGE 2: THEME DETAILS & PRICING -->
-    <div id="pricing-page" class="page-overlay pb-20">
-        <div class="flex items-center px-6 py-5 sticky top-0 bg-[#050505]/90 backdrop-blur-md z-40 border-b border-white/10">
-            <i class="fa-solid fa-arrow-left text-xl text-white cursor-pointer mr-4" onclick="closePricingPage()"></i>
-            <h1 class="text-sm font-semibold uppercase tracking-widest text-gray-300">Select Customization</h1>
-        </div>
-
-        <div class="max-w-md mx-auto w-full px-6 pt-8">
-            <div class="flex flex-col items-center text-center mb-10 pb-8 border-b border-white/10">
-                <div id="theme-detail-icon-bg" class="w-20 h-20 rounded-2xl flex items-center justify-center mb-4 border border-white/10 bg-white/5">
-                    <i id="theme-detail-icon" class="fa-solid fa-moon text-3xl"></i>
+                
+                <!-- Desktop Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6 font-semibold text-sm text-slate-600">
+                    <a href="#themes" class="hover:text-brand-500 transition">Themes</a>
+                    <a href="#process" class="hover:text-brand-500 transition">Roadmap</a>
+                    <a href="#about" class="hover:text-brand-500 transition">About Us</a>
+                    <a href="#founder" class="hover:text-brand-500 transition">Founder</a>
+                    <a href="#reviews" class="hover:text-brand-500 transition">Reviews</a>
                 </div>
-                <h2 id="theme-detail-name" class="text-2xl font-bold mb-2">Theme Name</h2>
-                <p id="theme-detail-desc" class="text-xs text-gray-400 leading-relaxed max-w-[280px]">Theme description goes here.</p>
+
+                <!-- Action Button & Mobile Menu Trigger -->
+                <div class="flex items-center gap-3">
+                    <a href="#themes" class="hidden sm:inline-block bg-brand-500 hover:bg-brand-600 text-white font-semibold text-xs sm:text-sm px-5 py-2.5 rounded-full transition shadow-md shadow-brand-500/20">
+                        View Store
+                    </a>
+
+                    <!-- Enhanced Hamburger Button -->
+                    <button id="menu-toggle" aria-label="Toggle Menu" class="md:hidden w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition focus:outline-none border border-slate-200">
+                        <i id="menu-icon" class="fa-solid fa-bars text-lg transition-transform duration-300"></i>
+                    </button>
+                </div>
             </div>
 
-            <h3 class="text-sm font-semibold mb-4 text-gray-300 uppercase tracking-widest">Choose Your Tier</h3>
+            <!-- Beautiful Mobile Dropdown Menu -->
+            <div id="mobile-menu" class="md:hidden absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden z-50">
+                <div class="p-4 flex flex-col space-y-1">
+                    <a href="#themes" class="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 text-slate-700 hover:text-brand-600 font-semibold text-sm transition group">
+                        <div class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white flex items-center justify-center text-brand-500 transition"><i class="fa-solid fa-store"></i></div>
+                        Explore Themes
+                    </a>
+                    <a href="#process" class="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 text-slate-700 hover:text-brand-600 font-semibold text-sm transition group">
+                        <div class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white flex items-center justify-center text-brand-500 transition"><i class="fa-solid fa-route"></i></div>
+                        How It Works
+                    </a>
+                    <a href="#about" class="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 text-slate-700 hover:text-brand-600 font-semibold text-sm transition group">
+                        <div class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white flex items-center justify-center text-brand-500 transition"><i class="fa-solid fa-circle-info"></i></div>
+                        About BioFlex
+                    </a>
+                    <a href="#founder" class="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 text-slate-700 hover:text-brand-600 font-semibold text-sm transition group">
+                        <div class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white flex items-center justify-center text-brand-500 transition"><i class="fa-solid fa-user-astronaut"></i></div>
+                        About Founder
+                    </a>
+                    <a href="#reviews" class="mobile-link flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-brand-50 text-slate-700 hover:text-brand-600 font-semibold text-sm transition group">
+                        <div class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-white flex items-center justify-center text-brand-500 transition"><i class="fa-solid fa-star"></i></div>
+                        Reviews & Ratings
+                    </a>
+                    
+                    <div class="h-px bg-slate-100 my-2"></div>
+                    
+                    <div class="grid grid-cols-2 gap-2 px-2">
+                        <a href="https://instagram.com/bioflexx" target="_blank" class="flex flex-col items-center justify-center gap-1 py-3 rounded-xl bg-pink-50 hover:bg-pink-100 text-pink-600 transition">
+                            <i class="fa-brands fa-instagram text-xl"></i>
+                            <span class="text-xs font-bold">@bioflexx</span>
+                        </a>
+                        <a href="mailto:vipaiagency@gmail.com" class="flex flex-col items-center justify-center gap-1 py-3 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-600 transition">
+                            <i class="fa-regular fa-envelope text-xl"></i>
+                            <span class="text-xs font-bold">Email Us</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <section class="max-w-5xl mx-auto text-center pt-12 sm:pt-20 pb-12 px-4">
+        <div class="inline-flex items-center gap-2 bg-brand-50 border border-brand-500/20 text-brand-600 font-semibold text-xs px-3.5 py-1.5 rounded-full mb-5">
+            <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+            ⚡ Readymade Themes Starting at ₹199 Only
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight mb-4 sm:mb-6">
+            Get Your Premium Portfolio Live in <br class="hidden sm:block">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-brand-600">
+                Under 24-48 Hours
+            </span>
+        </h1>
+
+        <p class="text-slate-600 text-sm sm:text-lg max-w-2xl mx-auto mb-8 px-2">
+            Choose your theme, submit your bio, photos & links. We setup your personal portfolio website with zero coding required from your end.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-xs sm:max-w-none mx-auto">
+            <a href="#themes" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 text-white font-bold px-7 py-3.5 rounded-full shadow-lg shadow-brand-500/30 transition text-center text-sm sm:text-base">
+                Explore Themes (₹199 - ₹1999)
+            </a>
+            <a href="#process" class="w-full sm:w-auto bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold px-7 py-3.5 rounded-full transition text-center text-sm sm:text-base">
+                How It Works
+            </a>
+        </div>
+    </section>
+
+    <!-- 3. UPDATES BANNER CAROUSEL -->
+    <section class="max-w-6xl mx-auto px-4 mb-8">
+        <div class="swiper mySwiper rounded-3xl overflow-hidden shadow-soft border border-slate-200 bg-white">
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide relative">
+                    <img src="photo_6285202558141797520_y.jpg" alt="Welcome Offer" class="w-full h-48 md:h-64 object-cover" onerror="this.src='https://via.placeholder.com/1200x400/00a896/ffffff?text=Add+banner1.jpg+in+folder'">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent flex flex-col justify-center px-8 md:px-16">
+                        <span class="bg-brand-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded w-max mb-2">New Launch</span>
+                        <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-2">Welcome to BioFlex Store</h2>
+                        <p class="text-slate-200 text-sm md:text-base max-w-md">Get flat 20% off on your first custom portfolio setup. Use code BIO20.</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide relative">
+                    <img src="photo_6285202558141797521_y.jpg" alt="Achievement" class="w-full h-48 md:h-64 object-cover" onerror="this.src='https://via.placeholder.com/1200x400/0f172a/ffffff?text=Add+banner2.jpg+in+folder'">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent flex flex-col justify-center px-8 md:px-16">
+                        <span class="bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded w-max mb-2">Milestone</span>
+                        <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-2">500+ Sites Delivered! 🎉</h2>
+                        <p class="text-slate-200 text-sm md:text-base max-w-md">Thank you for trusting us. We are now the fastest growing portfolio agency.</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide relative">
+                    <img src="banner3.jpg" alt="New Theme" class="w-full h-48 md:h-64 object-cover" onerror="this.src='https://via.placeholder.com/1200x400/6366f1/ffffff?text=Add+banner3.jpg+in+folder'">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent flex flex-col justify-center px-8 md:px-16">
+                        <span class="bg-indigo-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded w-max mb-2">Just Added</span>
+                        <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-2">Pro Gamer Vibe Theme</h2>
+                        <p class="text-slate-200 text-sm md:text-base max-w-md">Perfect for streamers and esports players. Now available in the store.</p>
+                    </div>
+                </div>
+
+                <div class="swiper-slide relative">
+                    <img src="banner4.jpg" alt="Feature Update" class="w-full h-48 md:h-64 object-cover" onerror="this.src='https://via.placeholder.com/1200x400/ec4899/ffffff?text=Add+banner4.jpg+in+folder'">
+                    <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-transparent flex flex-col justify-center px-8 md:px-16">
+                        <span class="bg-pink-500 text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded w-max mb-2">Update</span>
+                        <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-2">Custom Domain Support</h2>
+                        <p class="text-slate-200 text-sm md:text-base max-w-md">You can now attach your own .com or .in domain to any of our themes.</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="swiper-pagination mb-2"></div>
+        </div>
+    </section>
+
+    <!-- 4. THEME STORE -->
+    <section id="themes" class="max-w-6xl mx-auto px-4 pb-16">
+        <div class="text-center mb-10 pt-8 border-t border-slate-200/60">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">Readymade Website Store</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">Pick a theme, submit details, and we deliver your live site.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             
-            <div class="flex flex-col gap-4">
-                <button onclick="openCheckoutPage('Starter', '299')" class="tier-starter rounded-2xl p-5 text-left transition hover:scale-[1.02]">
-                    <div class="flex justify-between items-center mb-2">
-                        <h3 class="font-bold text-gray-200 text-lg">Starter Setup</h3>
-                        <span class="text-sm font-bold bg-white/10 px-3 py-1 rounded-full">₹299</span>
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="photo_6285202558141797520_y.jpg" alt="Theme 1" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme1.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
                     </div>
-                    <p class="text-xs text-gray-400">Basic color setup, add your photo, links and standard icons. Quick delivery.</p>
-                </button>
-
-                <button onclick="openCheckoutPage('Pro', '499')" class="tier-pro rounded-2xl p-5 text-left transition hover:scale-[1.02] relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-pink-500/30 blur-2xl rounded-full"></div>
-                    <div class="flex justify-between items-center mb-2 relative z-10">
-                        <h3 class="font-bold text-pink-300 text-lg">Creator Pro <i class="fa-solid fa-heart text-pink-500 text-sm ml-1"></i></h3>
-                        <span class="text-sm font-bold bg-pink-500/20 text-pink-300 px-3 py-1 rounded-full border border-pink-500/30">₹499</span>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-0.5 rounded">Starter</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Bio Link Basic</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Simple link-in-bio style page for quick social links.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹199</span>
+                        <button onclick="payWithRazorpay('Bio Link Basic', 199)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
                     </div>
-                    <p class="text-xs text-gray-300 relative z-10">Custom gradients, advanced animations, social integrations, and high-res icon pack. Most Popular.</p>
-                </button>
-
-                <button onclick="openCheckoutPage('God-Level VIP', '999')" class="tier-god rounded-2xl p-5 text-left transition hover:scale-[1.02] relative overflow-hidden">
-                    <div class="absolute right-0 top-0 w-32 h-32 bg-yellow-500/20 blur-3xl rounded-full"></div>
-                    <div class="flex justify-between items-center mb-2 relative z-10">
-                        <h3 class="font-bold text-yellow-500 inter-font text-sm tracking-wider mt-1">GOD-LEVEL</h3>
-                        <span class="text-sm font-bold bg-yellow-500/20 text-yellow-400 px-3 py-1 rounded-full border border-yellow-500/50">₹999</span>
-                    </div>
-                    <p class="text-xs text-gray-200 relative z-10">Ultimate luxury. Full custom redesign, 3D elements, priority 12-hour delivery, and VIP direct support.</p>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- PAGE 3: CHECKOUT & FORM DETAILS -->
-    <div id="checkout-page" class="page-overlay pb-20">
-        <div class="flex items-center px-6 py-5 sticky top-0 bg-[#050505]/90 backdrop-blur-md z-40 border-b border-white/10">
-            <i class="fa-solid fa-arrow-left text-xl text-white cursor-pointer mr-4" onclick="closeCheckoutPage()"></i>
-            <h1 class="text-sm font-semibold uppercase tracking-widest text-gray-300">Client Details</h1>
-        </div>
-
-        <div class="max-w-md mx-auto w-full px-6 pt-8">
-            <div class="mb-8 p-4 bg-white/5 border border-white/10 rounded-xl text-center">
-                <p class="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Selected Package</p>
-                <h2 class="text-lg font-bold" id="checkout-summary">Theme - Package</h2>
+                </div>
             </div>
 
-            <form id="checkout-form" class="flex flex-col gap-5">
-                <div>
-                    <label class="text-xs text-gray-400 uppercase tracking-wider ml-1 mb-2 block">Full Name</label>
-                    <input type="text" id="client-name" required class="glass-input w-full p-4 rounded-xl text-sm" placeholder="e.g. Vivek Kamal">
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme2.jpg" alt="Theme 2" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme2.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-slate-600 bg-slate-100 px-2 py-0.5 rounded">Minimal</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Clean White Card</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Minimalist personal profile with photo & bio.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹299</span>
+                        <button onclick="payWithRazorpay('Clean White Card', 299)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme3.jpg" alt="Theme 3" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme3.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-2 py-0.5 rounded">Social</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Insta Creator Hub</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Social media feed integration with highlights.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹399</span>
+                        <button onclick="payWithRazorpay('Insta Creator Hub', 399)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme4.jpg" alt="Theme 4" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme4.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Gamer</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Streamer Dark Vibe</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Glow effects, YouTube videos & Twitch links.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹499</span>
+                        <button onclick="payWithRazorpay('Streamer Dark Vibe', 499)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme5.jpg" alt="Theme 5" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme5.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Developer</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Code & Portfolio</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Showcase GitHub stats, tech stack & projects.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹699</span>
+                        <button onclick="payWithRazorpay('Code Portfolio', 699)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme6.jpg" alt="Theme 6" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme6.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-2 py-0.5 rounded">Aesthetic</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Glassmorphism Pro</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Modern blurry glass effect UI with smooth motion.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹899</span>
+                        <button onclick="payWithRazorpay('Glassmorphism Pro', 899)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme7.jpg" alt="Theme 7" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme7.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">Media</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Video Editor Grid</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Embedded video gallery to showcase showreels.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹1,099</span>
+                        <button onclick="payWithRazorpay('Video Editor Grid', 1099)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme8.jpg" alt="Theme 8" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme8.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded">Photo</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Photographer Studio</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">High resolution photo grid with lightbox preview.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹1,299</span>
+                        <button onclick="payWithRazorpay('Photographer Studio', 1299)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme9.jpg" alt="Theme 9" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme9.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-2 py-0.5 rounded">Business</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Corporate Bio Card</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Digital business card with QR code & vCard download.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹1,499</span>
+                        <button onclick="payWithRazorpay('Corporate Bio Card', 1499)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme10.jpg" alt="Theme 10" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme10.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-teal-600 bg-teal-50 px-2 py-0.5 rounded">Agency</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Mini Agency Showcase</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Multi-service landing page for small teams.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹1,699</span>
+                        <button onclick="payWithRazorpay('Mini Agency Showcase', 1699)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme11.jpg" alt="Theme 11" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme11.jpg'">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-600 bg-cyan-50 px-2 py-0.5 rounded">Elite</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">Influencer VIP Page</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Brand deal contact forms + analytics badge.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-slate-900">₹1,899</span>
+                        <button onclick="payWithRazorpay('Influencer VIP Page', 1899)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border-2 border-brand-500 overflow-hidden shadow-glow hover:-translate-y-1 transition duration-300 relative">
+                <span class="absolute top-3 right-3 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md z-10">Best Choice</span>
+                <div class="bg-slate-100 h-44 relative group">
+                    <img src="theme12.jpg" alt="Theme 12" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300/e2e8f0/64748b?text=Add+theme12.jpg'">
+                    <div class="absolute inset-0 bg-brand-900/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="bg-white text-brand-600 text-xs font-bold px-3 py-1.5 rounded-full">Preview</span>
+                    </div>
+                </div>
+                <div class="p-5">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-0.5 rounded">Custom</span>
+                    <h3 class="font-bold text-lg text-slate-900 mt-2 leading-tight">BioFlex Ultimate Suite</h3>
+                    <p class="text-slate-500 text-xs mt-1.5 mb-5 line-clamp-2">Custom domain setup, animations & WhatsApp chat integration.</p>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xl font-extrabold text-brand-600">₹1,999</span>
+                        <button onclick="payWithRazorpay('BioFlex Ultimate Suite', 1999)" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-4 py-2 rounded-xl transition">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. ABOUT AGENCY & FOUNDER SECTION -->
+    <section id="about" class="max-w-5xl mx-auto px-4 py-16 border-t border-slate-200/60">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-2xl flex items-center justify-center mb-6 text-xl">
+                    <i class="fa-solid fa-laptop-code"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-3">About BioFlex Tech Agency</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    BioFlex Tech Agency helps creators, developers, and entrepreneurs turn their social media presence and bios into high-converting, beautiful personal websites in 24-48 hours. No code required.
+                </p>
+            </div>
+
+            <div id="founder" class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                <div class="w-12 h-12 bg-brand-50 text-brand-500 rounded-2xl flex items-center justify-center mb-6 text-xl">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-3">About Founder</h3>
+                <p class="text-slate-600 text-sm leading-relaxed">
+                    Built with a mission to make web development accessible and affordable for everyone in India starting from just ₹199 with zero technical headaches. We believe everyone deserves a premium online home.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. REVIEW SYSTEM SECTION -->
+    <section id="reviews" class="bg-white py-16 border-y border-slate-200/60">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-10 gap-4">
+                <div class="text-center sm:text-left">
+                    <div class="flex justify-center sm:justify-start gap-1 text-amber-400 text-lg mb-2">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">What Our Clients Say</h2>
+                    <p class="text-slate-600 text-sm mt-1">4.9/5 Rating based on 500+ recent deliveries.</p>
                 </div>
                 
-                <div>
-                    <label class="text-xs text-gray-400 uppercase tracking-wider ml-1 mb-2 block flex items-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-green-500 text-sm"></i> WhatsApp Number
-                    </label>
-                    <input type="tel" id="client-whatsapp" required class="glass-input w-full p-4 rounded-xl text-sm" placeholder="+91 00000 00000">
-                    <p class="text-[9px] text-gray-500 ml-1 mt-1">We will contact you here for setup details.</p>
-                </div>
-
-                <button type="submit" class="mt-4 w-full bg-gradient-to-r from-[#9d00ff] to-[#ff007f] py-4 rounded-xl text-sm font-bold uppercase tracking-wider shadow-[0_5px_20px_rgba(157,0,255,0.4)] transition hover:scale-[1.02]">
-                    Pay <span id="checkout-price">₹0</span> via Razorpay
+                <button onclick="openReviewModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-5 py-2.5 rounded-full text-sm flex items-center gap-2 transition shadow-lg shadow-slate-900/20">
+                    <i class="fa-solid fa-pen-nib"></i> Write a Review
                 </button>
-                <p class="text-[9px] text-center text-gray-500 mt-1"><i class="fa-solid fa-lock"></i> 100% Secure Checkout</p>
-            </form>
-        </div>
-    </div>
-
-    <!-- ADD REVIEW MODAL (No Half Stars) -->
-    <div id="review-modal" class="page-overlay pb-20 flex items-center justify-center bg-black/95 backdrop-blur-md px-4">
-        <div class="w-full max-w-sm bg-[#050505] border border-[#9d00ff]/40 rounded-3xl p-6 relative shadow-[0_0_30px_rgba(157,0,255,0.15)]">
-            <i class="fa-solid fa-xmark absolute top-6 right-6 text-xl text-gray-400 cursor-pointer hover:text-white" onclick="closeReviewModal()"></i>
-            
-            <div class="text-center mt-2 mb-6">
-                <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                    <i class="fa-solid fa-star text-yellow-400 text-xl"></i>
-                </div>
-                <h2 class="text-xl font-bold">Write a Review</h2>
-                <p class="text-[10px] text-gray-400 mt-1">Tell us about your experience</p>
             </div>
 
-            <form id="review-submit-form" class="flex flex-col gap-4">
-                <div>
-                    <input type="text" id="review-name" required class="glass-input w-full p-3 rounded-xl text-sm" placeholder="Your Name or IG Handle">
-                </div>
-                <div>
-                    <select id="review-rating" required class="glass-input w-full p-3 rounded-xl text-sm bg-[#050505]">
-                        <option value="5" selected>⭐⭐⭐⭐⭐ (5 Stars)</option>
-                        <option value="4">⭐⭐⭐⭐ (4 Stars)</option>
-                        <option value="3">⭐⭐⭐ (3 Stars)</option>
-                        <option value="2">⭐⭐ (2 Stars)</option>
-                        <option value="1">⭐ (1 Star)</option>
-                    </select>
-                </div>
-                <div>
-                    <textarea id="review-text" required rows="3" class="glass-input w-full p-3 rounded-xl text-sm resize-none" placeholder="How was the UI? Fast delivery?"></textarea>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200/80">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-6 italic">"Bhai mast site banayi hai! 24 ghante me meri portfolio link live ho gayi. ₹399 me fully worth it. Support bhi badhiya hai."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-500 text-white font-bold flex items-center justify-center text-sm">R</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900">Rohit Sharma</h4>
+                            <p class="text-xs text-slate-500">Instagram Creator</p>
+                        </div>
+                    </div>
                 </div>
 
-                <button type="submit" class="mt-2 w-full bg-white text-black py-3 rounded-xl text-sm font-bold uppercase tracking-wider hover:scale-[1.02] transition">
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200/80">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-6 italic">"Super fast delivery. Maine Instagram feed integrate karwaya tha apne 'Ultimate Suite' me, perfect chal rha hai bina error ke."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-purple-500 text-white font-bold flex items-center justify-center text-sm">A</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900">Aman Verma</h4>
+                            <p class="text-xs text-slate-500">Video Editor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-3xl border border-slate-200/80">
+                    <div class="flex items-center gap-1 text-amber-400 text-sm mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-6 italic">"Clean design and responsive layout. Pehle lag rha tha scan hoga par service top notch hai! Domain mapping done easily."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-sm">P</div>
+                        <div>
+                            <h4 class="font-bold text-sm text-slate-900">Priya Singh</h4>
+                            <p class="text-xs text-slate-500">Freelancer UI Designer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. ROADMAP PROCESS SECTION -->
+    <section id="process" class="py-16 max-w-5xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900">4-Step Delivery Roadmap</h2>
+            <p class="text-slate-600 text-sm sm:text-base mt-2">Aapke order se leke site live hone tak ka simple process.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative">
+                <div class="absolute -top-3 -right-3 w-8 h-8 bg-brand-50 border border-brand-100 rounded-full flex items-center justify-center text-brand-500 text-xs"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="text-brand-500 font-extrabold text-3xl mb-2 opacity-20">01</div>
+                <h4 class="font-bold text-sm sm:text-base text-slate-900">Select Theme</h4>
+                <p class="text-xs text-slate-500 mt-2">Choose your slot (₹199-₹1999)</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative">
+                <div class="absolute -top-3 -right-3 w-8 h-8 bg-brand-50 border border-brand-100 rounded-full flex items-center justify-center text-brand-500 text-xs"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="text-brand-500 font-extrabold text-3xl mb-2 opacity-20">02</div>
+                <h4 class="font-bold text-sm sm:text-base text-slate-900">Pay & Details</h4>
+                <p class="text-xs text-slate-500 mt-2">Send bio, links & images</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative">
+                <div class="absolute -top-3 -right-3 w-8 h-8 bg-brand-50 border border-brand-100 rounded-full flex items-center justify-center text-brand-500 text-xs"><i class="fa-solid fa-arrow-right"></i></div>
+                <div class="text-brand-500 font-extrabold text-3xl mb-2 opacity-20">03</div>
+                <h4 class="font-bold text-sm sm:text-base text-slate-900">We Develop</h4>
+                <p class="text-xs text-slate-500 mt-2">24-48 hrs setup process</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative">
+                <div class="absolute -top-3 -right-3 w-8 h-8 bg-green-50 border border-green-100 rounded-full flex items-center justify-center text-green-500 text-xs"><i class="fa-solid fa-check"></i></div>
+                <div class="text-brand-500 font-extrabold text-3xl mb-2 opacity-20">04</div>
+                <h4 class="font-bold text-sm sm:text-base text-slate-900">Site Live 🚀</h4>
+                <p class="text-xs text-slate-500 mt-2">Get your custom link</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. FOOTER -->
+    <footer class="bg-[#0f172a] text-slate-400 py-10 px-4 text-center text-sm border-t border-slate-800">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-6">
+            <a href="https://instagram.com/bioflexx" target="_blank" class="flex items-center gap-2 hover:text-white transition bg-slate-800/50 px-4 py-2 rounded-full">
+                <i class="fa-brands fa-instagram text-pink-500"></i> @bioflexx
+            </a>
+            <a href="mailto:vipaiagency@gmail.com" class="flex items-center gap-2 hover:text-white transition bg-slate-800/50 px-4 py-2 rounded-full">
+                <i class="fa-solid fa-envelope text-brand-500"></i> vipaiagency@gmail.com
+            </a>
+        </div>
+        <p class="text-slate-500">© 2026 BioFlex Tech Agency. All rights reserved.</p>
+    </footer>
+
+    <!-- REVIEW MODAL (Hidden by default) -->
+    <div id="review-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[60] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl w-full max-w-md p-6 shadow-2xl transform scale-95 transition-transform duration-300" id="review-modal-content">
+            <div class="flex justify-between items-center mb-5">
+                <h3 class="text-xl font-bold text-slate-900">Write a Review</h3>
+                <button onclick="closeReviewModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <form id="review-form" onsubmit="submitReview(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Your Name</label>
+                    <input type="text" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition text-sm" placeholder="John Doe">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Rating</label>
+                    <div class="flex gap-2 text-slate-300 text-2xl" id="star-rating">
+                        <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(1)"></i>
+                        <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(2)"></i>
+                        <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(3)"></i>
+                        <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(4)"></i>
+                        <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" onclick="setRating(5)"></i>
+                    </div>
+                    <input type="hidden" id="rating-value" value="0" required>
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1">Your Experience</label>
+                    <textarea required rows="4" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition text-sm resize-none" placeholder="How was your website delivery?"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-bold py-3 rounded-xl transition shadow-md shadow-brand-500/20">
                     Submit Review
                 </button>
-                <p class="text-[8px] text-center text-gray-500 mt-1">Reviews are moderated before appearing on site.</p>
             </form>
         </div>
     </div>
 
-
-    <!-- HAMBURGER MENU -->
-    <div id="modal-bg" class="modal-bg fixed inset-0 bg-black/80 backdrop-blur-sm z-[150]"></div>
-    <div id="side-menu" class="side-menu fixed top-0 left-0 w-[80%] max-w-[300px] h-[100dvh] bg-[#050505] border-r border-white/10 p-6 flex flex-col shadow-[20px_0_30px_rgba(0,0,0,0.8)] z-[200]">
-        
-        <div class="flex justify-between items-center border-b border-white/10 pb-6 mb-6">
-            <h1 class="inter-font text-lg font-black tracking-widest uppercase">BIO<span class="text-[#9d00ff]">FLEX</span></h1>
-            <i class="fa-solid fa-xmark text-2xl text-gray-300 cursor-pointer" id="close-menu"></i>
-        </div>
-        
-        <div class="flex flex-col gap-4 overflow-y-auto no-scrollbar pb-10">
-            <div class="p-4 bg-white/5 rounded-xl border border-white/10">
-                <h3 class="text-sm font-semibold text-white flex items-center gap-2 mb-1"><i class="fa-solid fa-building text-[#9d00ff]"></i> About BioFlex</h3>
-                <p class="text-[10px] text-gray-400">A premium agency crafting VIP digital storefronts for creators, brands, and individuals.</p>
-            </div>
-            <div class="p-4 bg-white/5 rounded-xl border border-white/10">
-                <h3 class="text-sm font-semibold text-white flex items-center gap-2 mb-1"><i class="fa-solid fa-user-astronaut text-pink-500"></i> Founder</h3>
-                <p class="text-[10px] text-gray-400">Vivek Kamal is a tech magician building Next-Gen UI experiences.</p>
-            </div>
-
-            <a href="https://instagram.com/bioflexx_" target="_blank" class="p-4 bg-gradient-to-r from-pink-600/20 to-purple-600/20 rounded-xl border border-pink-500/30 flex items-center gap-3 mt-4">
-                <i class="fa-brands fa-instagram text-2xl text-pink-500"></i>
-                <div>
-                    <h3 class="text-sm font-semibold text-white">Follow Us</h3>
-                    <p class="text-[10px] text-pink-300">@bioflexx_</p>
-                </div>
-            </a>
-
-            <a href="mailto:vipaiagency@gmail.com" class="p-4 bg-gradient-to-r from-blue-600/20 to-cyan-600/20 rounded-xl border border-blue-500/30 flex items-center gap-3 mt-1">
-                <i class="fa-solid fa-envelope text-2xl text-blue-500"></i>
-                <div>
-                    <h3 class="text-sm font-semibold text-white">Email Support</h3>
-                    <p class="text-[10px] text-blue-300">vipaiagency@gmail.com</p>
-                </div>
-            </a>
-        </div>
-        <div class="mt-auto pt-4 text-center text-[10px] text-gray-500 tracking-widest uppercase border-t border-white/10">
-            © 2026 BioFlex Agency
-        </div>
-    </div>
-
-
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- SCRIPTS -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    
     <script>
-        // State
-        let currentTheme = "";
-        let currentTier = "";
-        let currentPrice = "";
-
-        // UI Elements
-        const pricingPage = document.getElementById('pricing-page');
-        const checkoutPage = document.getElementById('checkout-page');
-        const reviewModal = document.getElementById('review-modal');
-        const sideMenu = document.getElementById('side-menu');
-        const modalBg = document.getElementById('modal-bg');
-
-        function disableBodyScroll() { document.body.style.overflow = 'hidden'; }
-        function enableBodyScroll() { document.body.style.overflow = ''; }
-
-        // --- Swipable Auto Slider Logic ---
-        const sliderContainer = document.getElementById('slider-container');
-        const sliderWrapper = document.getElementById('slider');
-        const dots = document.querySelectorAll('.dot');
-        let currentSlideIndex = 0;
-        const totalSlides = 3;
-        let slideInterval;
-        let startX = 0;
-        let endX = 0;
-
-        function updateSlider() {
-            sliderWrapper.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
-            dots.forEach((dot, index) => {
-                if(index === currentSlideIndex) {
-                    dot.classList.replace('bg-white/30', 'bg-white');
-                } else {
-                    dot.classList.replace('bg-white', 'bg-white/30');
-                }
-            });
-        }
-        
-        function resetInterval() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(() => {
-                currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
-                updateSlider();
-            }, 3000);
-        }
-
-        // Start Auto Play
-        resetInterval();
-
-        // Touch Swipe Support
-        sliderContainer.addEventListener('touchstart', e => {
-            startX = e.changedTouches[0].screenX;
-            clearInterval(slideInterval); // Pause on touch
+        // 1. Initialize Swiper Carousel
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 0,
+            centeredSlides: true,
+            autoplay: {
+                delay: 3500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            loop: true,
+            effect: "fade",
+            fadeEffect: { crossFade: true }
         });
 
-        sliderContainer.addEventListener('touchend', e => {
-            endX = e.changedTouches[0].screenX;
-            handleSwipe();
-            resetInterval(); // Resume auto play
-        });
+        // 2. Enhanced Hamburger Menu Logic
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        function handleSwipe() {
-            if (startX - endX > 40) {
-                // Swiped left (Next)
-                currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
-                updateSlider();
-            } else if (endX - startX > 40) {
-                // Swiped right (Prev)
-                currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
-                updateSlider();
-            }
-        }
-        // -------------------------
-
-        // --- FAQ Accordion Logic ---
-        function toggleFaq(element) {
-            const answer = element.querySelector('.faq-answer');
-            const icon = element.querySelector('.fa-chevron-down');
-            if (answer.classList.contains('hidden')) {
-                answer.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.contains('open');
+            
+            if (!isOpen) {
+                mobileMenu.classList.add('open');
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
             } else {
-                answer.classList.add('hidden');
-                icon.style.transform = 'rotate(0deg)';
+                mobileMenu.classList.remove('open');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
             }
-        }
-        // -------------------------
-
-        // --- Review 'See All' Logic ---
-        function showAllReviews() {
-            document.querySelectorAll('.extra-review').forEach(el => {
-                el.classList.remove('hidden');
-            });
-            document.getElementById('see-all-btn').style.display = 'none';
-        }
-        // -------------------------
-
-
-        // Sidebar Logic
-        document.getElementById('open-menu').addEventListener('click', () => {
-            modalBg.classList.add('active');
-            sideMenu.classList.add('active');
-            disableBodyScroll();
         });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // 3. Razorpay Payment Logic (Syntax error fixed here using template literal)
+        function payWithRazorpay(themeName, amount) {
+            var options = {
+                "key": "https://razorpay.me/@vivek4878", 
+                "amount": amount * 100,
+                "currency": "INR",
+                "name": "BioFlex Tech Agency",
+                "description": "Order for " + themeName,
+                "handler": function (response){
+                    alert(`Payment Successful! ID: ${response.razorpay_payment_id}\n\nPlease send details to vipaiagency@gmail.com`);
+                },
+                "prefill": { "email": "vipaiagency@gmail.com" },
+                "theme": { "color": "#00a896" }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+
+        // 4. Review Modal Logic
+        const reviewModal = document.getElementById('review-modal');
+        const reviewModalContent = document.getElementById('review-modal-content');
         
-        function closeMenu() {
-            sideMenu.classList.remove('active');
-            modalBg.classList.remove('active');
-            enableBodyScroll();
-        }
-        document.getElementById('close-menu').addEventListener('click', closeMenu);
-        modalBg.addEventListener('click', closeMenu);
-
-        // Pricing Page Logic
-        function openPricingPage(name, iconClass, colorClass, desc) {
-            currentTheme = name;
-            
-            document.getElementById('theme-detail-name').innerText = name;
-            document.getElementById('theme-detail-desc').innerText = desc;
-            
-            const iconEl = document.getElementById('theme-detail-icon');
-            iconEl.className = `fa-solid ${iconClass} text-3xl text-${colorClass}`;
-            
-            pricingPage.classList.add('active');
-            disableBodyScroll();
-        }
-
-        function closePricingPage() {
-            pricingPage.classList.remove('active');
-            enableBodyScroll();
-        }
-
-        // Checkout Page Logic
-        function openCheckoutPage(tier, price) {
-            currentTier = tier;
-            currentPrice = price;
-            
-            document.getElementById('checkout-summary').innerHTML = `<span class="text-white">${currentTheme}</span> <span class="text-[#9d00ff]"> - ${currentTier}</span>`;
-            document.getElementById('checkout-price').innerText = `₹${currentPrice}`;
-            
-            checkoutPage.classList.add('active');
-        }
-
-        function closeCheckoutPage() {
-            checkoutPage.classList.remove('active');
-        }
-
-        // Review Modal Logic
         function openReviewModal() {
-            reviewModal.classList.add('active');
-            disableBodyScroll();
+            reviewModal.classList.remove('hidden');
+            reviewModal.classList.add('flex');
+            setTimeout(() => {
+                reviewModal.classList.remove('opacity-0');
+                reviewModalContent.classList.remove('scale-95');
+            }, 10);
         }
 
         function closeReviewModal() {
-            reviewModal.classList.remove('active');
-            enableBodyScroll();
+            reviewModal.classList.add('opacity-0');
+            reviewModalContent.classList.add('scale-95');
+            setTimeout(() => {
+                reviewModal.classList.add('hidden');
+                reviewModal.classList.remove('flex');
+                document.getElementById('review-form').reset();
+                setRating(0);
+            }, 300);
         }
 
-        document.getElementById('review-submit-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('review-name').value;
-            const rating = document.getElementById('review-rating').value;
-            const text = document.getElementById('review-text').value;
+        function setRating(rating) {
+            document.getElementById('rating-value').value = rating;
+            const stars = document.getElementById('star-rating').children;
+            for(let i=0; i<5; i++) {
+                if(i < rating) {
+                    stars[i].classList.remove('text-slate-300');
+                    stars[i].classList.add('text-amber-400');
+                } else {
+                    stars[i].classList.remove('text-amber-400');
+                    stars[i].classList.add('text-slate-300');
+                }
+            }
+        }
 
-            const waMessage = `⭐ *New Review Submitted!*\n\n*Name:* ${name}\n*Rating:* ${rating}/5 Stars\n*Message:* "${text}"\n\nPlease add this to the BioFlex Hall of Fame!`;
-            const waNumber = "919235290796"; 
-            const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-            
-            alert("Thanks for your review! Redirecting to submit...");
-            window.open(waUrl, "_blank");
-            
+        function submitReview(e) {
+            e.preventDefault();
+            const rating = document.getElementById('rating-value').value;
+            if(rating == 0) {
+                alert("Please select a star rating!");
+                return;
+            }
+            alert("Thank you! Your review has been submitted for moderation.");
             closeReviewModal();
-            this.reset();
-        });
-
-        // Form Submission Logic
-        document.getElementById('checkout-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('client-name').value;
-            const whatsapp = document.getElementById('client-whatsapp').value;
-            
-            alert("Connecting to Razorpay... (In reality, Razorpay pop-up will open here)");
-            
-            setTimeout(() => {
-                const fakePaymentId = "pay_" + Math.random().toString(36).substring(2, 10).toUpperCase();
-                const waMessage = `🚀 Hi BioFlex! My payment is successful.\n\n*Payment ID:* ${fakePaymentId}\n*Theme:* ${currentTheme}\n*Package:* ${currentTier} (₹${currentPrice})\n\n*Client Details:*\nName: ${name}\nWhatsApp: ${whatsapp}\n\nPlease start working on my VIP Storefront!`;
-                
-                const waNumber = "919235290796"; 
-                const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMessage)}`;
-                
-                alert(`Payment Success! Redirecting to WhatsApp...`);
-                window.open(waUrl, "_blank");
-                
-                checkoutPage.classList.remove('active');
-                pricingPage.classList.remove('active');
-                enableBodyScroll();
-                this.reset(); 
-            }, 1500);
-        });
+        }
     </script>
 </body>
 </html>
