@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>VIP BioFlex - Vivek Kamal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* SCROLL LAG FIX: Cleaned up body overflow and added touch scrolling */
+        html {
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: #0b0710;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        /* Fixed Background without blocking scroll engine */
+        .bg-fixed-layer {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background-image: radial-gradient(circle at 50% 0%, #2a1145 0%, #0b0710 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .bio-container {
+            width: 100%;
+            max-width: 420px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            background: rgba(11, 7, 16, 0.6);
+            backdrop-filter: blur(5px);
+            position: relative;
+        }
+
+        .name-font {
+            font-family: 'Syncopate', sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* Premium Logo Glow */
+        .brand-logo {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, #ff007f, #9d00ff, #ff007f);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(157, 0, 255, 0.5));
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Glassmorphism */
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            text-decoration: none;
+            color: white;
+        }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #0b0710;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* Sidebar Menu Styles */
+        #side-menu {
+            transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #qrcode img {
+            margin: 0 auto;
+            border-radius: 10px;
+            padding: 10px;
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Background Div -->
+    <div class="bg-fixed-layer"></div>
+
+    <!-- Intro Splash Screen -->
+    <div id="splash-screen">
+        <h1 class="brand-logo text-3xl">BIOFLEX</h1>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="bio-container relative">
+        
+        <!-- Top Navbar with Logo -->
+        <div class="flex justify-between items-center px-6 py-5 border-b border-white/10 sticky top-0 bg-[#0b0710]/80 backdrop-blur-md z-40">
+            <h1 class="brand-logo text-lg">BioFlex</h1>
+            <i class="fa-solid fa-bars text-xl text-gray-300 cursor-pointer hover:text-white transition-colors" id="open-menu"></i>
+        </div>
+
+        <div class="px-6 py-8">
+            <!-- Profile Section -->
+            <div class="reveal flex flex-col items-center text-center mb-12">
+                <img src="dp.jpg" alt="Vivek Kamal" class="w-28 h-28 rounded-full object-cover mb-4 border-2 border-[#9d00ff] shadow-[0_0_20px_rgba(157,0,255,0.4)]">
+                
+                <div class="mb-3">
+                    <h2 class="name-font text-2xl font-bold text-center uppercase">VIVEK KAMAL</h2>
+                </div>
+                
+                <span class="bg-white/10 text-[10px] font-semibold px-4 py-1.5 rounded-full mb-5 tracking-widest text-gray-300 border border-white/20 uppercase">
+                    Egoistic
+                </span>
+                
+                <p class="text-sm text-gray-400 leading-relaxed">
+                    Basically i'm a magician i can do everything you thought. 🪄
+                </p>
+            </div>
+
+           <!-- Photos Section -->
+            <div class="mb-12">
+                <div class="flex flex-col gap-8">
+                    <div class="reveal">
+                        <h4 class="text-sm font-medium text-gray-200 mb-3 pl-2 border-l-2 border-pink-500">1. Raw Vibe</h4>
+                        <img src="photo_6282618555492668589_y.jpg" class="w-full h-auto rounded-xl shadow-lg border border-white/5" alt="Vivek Kamal Magic 1">
+                    </div>
+                    <div class="reveal">
+                        <h4 class="text-sm font-medium text-gray-200 mb-3 pl-2 border-l-2 border-[#9d00ff]">2. Chill Mode</h4>
+                        <img src="photo_6282618555492668590_y.jpg" class="w-full h-auto rounded-xl shadow-lg border border-white/5" alt="Vivek Kamal Magic 2">
+                    </div>
+                    <div class="reveal">
+                        <h4 class="text-sm font-medium text-gray-200 mb-3 pl-2 border-l-2 border-pink-500">3. In The Woods</h4>
+                        <img src="photo_6282618555492668588_y.jpg" class="w-full h-auto rounded-xl shadow-lg border border-white/5" alt="Vivek Kamal Magic 3">
+                    </div>
+                    <div class="reveal">
+                        <h4 class="text-sm font-medium text-gray-200 mb-3 pl-2 border-l-2 border-[#9d00ff]">4. Mystical Aura</h4>
+                        <img src="photo_6282618555492668587_y.jpg" class="w-full h-auto rounded-xl shadow-lg border border-white/5" alt="Vivek Kamal Magic 4">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media / Links -->
+            <div class="flex flex-col gap-3 mb-6">
+                <a href="https://wa.me/919235290796" target="_blank" class="reveal glass-btn hover:bg-white/10 transition-colors py-3.5 px-6 rounded-xl flex justify-center items-center gap-2 text-sm w-full">
+                    <i class="fa-brands fa-whatsapp text-green-400 text-lg"></i> Chat on WhatsApp
+                </a>
+                <a href="https://youtube.com/@iamvivek-22" target="_blank" class="reveal glass-btn hover:bg-white/10 transition-colors py-3.5 px-6 rounded-xl flex justify-center items-center gap-2 text-sm w-full">
+                    <i class="fa-brands fa-youtube text-red-500 text-lg"></i> Watch on YouTube
+                </a>
+                <a href="https://instagram.com/iamvivek22_" target="_blank" class="reveal glass-btn hover:bg-white/10 transition-colors py-3.5 px-6 rounded-xl flex justify-center items-center gap-2 text-sm w-full">
+                    <i class="fa-brands fa-instagram text-pink-500 text-lg"></i> Follow @iamvivek22_
+                </a>
+            </div>
+        </div>
+        
+        <!-- Copyright Footer -->
+        <footer class="reveal mt-auto py-5 text-center border-t border-white/5 bg-[#0b0710]/80">
+            <p class="text-[10px] text-gray-500 tracking-widest uppercase">© 2026 bioflex copyrights</p>
+        </footer>
+    </div>
+    <!-- END MAIN CONTAINER -->
+
+    <!-- SIDEBAR MENU OVERLAY (Updated Order) -->
+    <div id="side-menu" class="fixed inset-0 bg-[#0b0710]/98 backdrop-blur-2xl z-50 transform translate-x-full flex flex-col h-[100dvh] w-full">
+        <div class="flex justify-between items-center px-6 py-6 border-b border-white/10">
+            <h1 class="brand-logo text-lg">Menu</h1>
+            <i class="fa-solid fa-xmark text-2xl text-gray-300 cursor-pointer hover:text-white transition-transform hover:rotate-90" id="close-menu"></i>
+        </div>
+        
+        <div class="flex flex-col px-6 py-8 gap-4 overflow-y-auto">
+            
+            <!-- 1. QR Code -->
+            <button id="qr-btn" class="glass-btn flex items-center gap-4 p-4 rounded-xl hover:bg-white/10 transition text-left w-full">
+                <div class="w-10 h-10 rounded-full bg-white/5 flex justify-center items-center">
+                    <i class="fa-solid fa-qrcode text-gray-300 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-medium text-sm">Profile QR Code</h3>
+                    <p class="text-[10px] text-gray-400">Scan to connect instantly</p>
+                </div>
+            </button>
+
+            <!-- 2. Share Profile -->
+            <button id="share-btn" class="glass-btn flex items-center gap-4 p-4 rounded-xl hover:bg-white/10 transition text-left w-full">
+                <div class="w-10 h-10 rounded-full bg-white/5 flex justify-center items-center">
+                    <i class="fa-solid fa-share-nodes text-pink-500 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-medium text-sm">Share Profile</h3>
+                    <p class="text-[10px] text-gray-400">Flex this VIP site with friends</p>
+                </div>
+            </button>
+
+            <!-- 3. Create your profile (Get Your Own VIP Site) -->
+            <a href="https://bioflex-1.vercel.app/" target="_blank" class="glass-btn flex items-center gap-4 p-4 rounded-xl hover:bg-white/10 transition text-left w-full">
+                <div class="w-10 h-10 rounded-full bg-white/5 flex justify-center items-center">
+                    <i class="fa-solid fa-bolt text-yellow-400 text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-medium text-sm">Create Your Profile</h3>
+                    <p class="text-[10px] text-gray-400">Powered by BioFlex Agency</p>
+                </div>
+            </a>
+
+            <!-- 4. About the Creator -->
+            <button id="about-btn" class="glass-btn flex items-center gap-4 p-4 rounded-xl hover:bg-white/10 transition text-left w-full">
+                <div class="w-10 h-10 rounded-full bg-white/5 flex justify-center items-center">
+                    <i class="fa-solid fa-user-astronaut text-[#9d00ff] text-lg"></i>
+                </div>
+                <div>
+                    <h3 class="font-medium text-sm">About the Creator</h3>
+                    <p class="text-[10px] text-gray-400">Vivek Kamal | BioFlex Founder</p>
+                </div>
+            </button>
+
+        </div>
+        
+        <div class="mt-auto p-6 border-t border-white/5 text-center">
+            <p class="text-[10px] text-gray-500 tracking-widest uppercase">Created by BioFlex</p>
+        </div>
+    </div>
+
+    <!-- ABOUT MODAL -->
+    <div id="about-modal" class="modal fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex justify-center items-center p-6 h-[100dvh] w-full">
+        <div class="glass-btn w-full max-w-sm rounded-2xl p-6 relative">
+            <i class="fa-solid fa-xmark absolute top-4 right-4 text-xl text-gray-400 cursor-pointer hover:text-white" id="close-about-modal"></i>
+            <div class="text-center">
+                <img src="dp.jpg" alt="Vivek" class="w-20 h-20 rounded-full mx-auto mb-4 border border-[#9d00ff]">
+                <h2 class="name-font text-lg font-bold mb-1">VIVEK KAMAL</h2>
+                <p class="text-xs text-[#9d00ff] mb-4 uppercase tracking-widest">Founder, BioFlex</p>
+                <p class="text-sm text-gray-300 leading-relaxed mb-4">
+                    Hey! I'm Vivek, a digital creator and tech enthusiast. I built BioFlex to help creators ditch boring templates and own premium, high-converting digital storefronts. Welcome to my world!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR CODE MODAL -->
+    <div id="qr-modal" class="modal fixed inset-0 bg-black/90 backdrop-blur-md z-[100] flex justify-center items-center p-6 h-[100dvh] w-full">
+        <div class="glass-btn w-full max-w-sm rounded-2xl p-6 relative flex flex-col items-center text-center">
+            <i class="fa-solid fa-xmark absolute top-4 right-4 text-xl text-gray-400 cursor-pointer hover:text-white" id="close-qr-modal"></i>
+            <h2 class="name-font text-lg font-bold mb-2">SCAN ME</h2>
+            <p class="text-xs text-gray-400 mb-6">Point your camera to view this profile</p>
+            
+            <div id="qrcode" class="mb-4"></div>
+            
+            <p class="text-[10px] text-[#9d00ff] tracking-widest uppercase mt-2">@iamvivek22_</p>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script>
+        // Splash Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.display = 'none'; }, 500);
+            }, 1500);
+        });
+
+        // SCROLL LAG FIX: Intersection Observer that runs only ONCE per element!
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Stops tracking it after it reveals (Fixes scrolling lag completely)
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // UI Elements
+        const openMenuBtn = document.getElementById('open-menu');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const sideMenu = document.getElementById('side-menu');
+        
+        const aboutBtn = document.getElementById('about-btn');
+        const aboutModal = document.getElementById('about-modal');
+        const closeAboutModal = document.getElementById('close-about-modal');
+
+        const qrBtn = document.getElementById('qr-btn');
+        const qrModal = document.getElementById('qr-modal');
+        const closeQrModal = document.getElementById('close-qr-modal');
+
+        function disableScroll() { 
+            document.body.style.overflow = 'hidden'; 
+        }
+        function enableScroll() { 
+            document.body.style.overflow = ''; 
+        }
+
+        // Sidebar Menu Logic
+        openMenuBtn.addEventListener('click', () => {
+            sideMenu.classList.remove('translate-x-full');
+            disableScroll();
+        });
+        
+        closeMenuBtn.addEventListener('click', () => {
+            sideMenu.classList.add('translate-x-full');
+            enableScroll();
+        });
+
+        // About Modal Logic
+        aboutBtn.addEventListener('click', () => {
+            aboutModal.classList.add('active');
+        });
+        closeAboutModal.addEventListener('click', () => {
+            aboutModal.classList.remove('active');
+        });
+
+        // QR Code Logic
+        let qrGenerated = false;
+        qrBtn.addEventListener('click', () => {
+            qrModal.classList.add('active');
+            if (!qrGenerated) {
+                const currentUrl = window.location.href; 
+                new QRCode(document.getElementById("qrcode"), {
+                    text: currentUrl,
+                    width: 180,
+                    height: 180,
+                    colorDark : "#0b0710",
+                    colorLight : "#ffffff",
+                    correctLevel : QRCode.CorrectLevel.H
+                });
+                qrGenerated = true;
+            }
+        });
+        closeQrModal.addEventListener('click', () => {
+            qrModal.classList.remove('active');
+        });
+
+        // SHARE API FIX: Added Fallback for Localhost/Non-HTTPS Testing
+        const shareBtn = document.getElementById('share-btn');
+        shareBtn.addEventListener('click', async () => {
+            const shareData = {
+                title: 'VIP BioFlex - Vivek Kamal',
+                text: 'Check out my VIP digital storefront!',
+                url: window.location.href,
+            };
+
+            // Check if Native Share is supported AND if we are on a secure context
+            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {
+                    console.log('Error sharing:', err);
+                }
+            } else {
+                // FALLBACK: Copy link to clipboard and show an alert if share isn't allowed
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert("Native share is blocked by browser on this IP, but the Link has been copied to your clipboard!");
+                } catch (err) {
+                    alert("Copy the link manually: " + window.location.href);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

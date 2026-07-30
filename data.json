@@ -1,0 +1,23 @@
+{
+  "username": "@iamvivek22_",
+  "fullName": "Vivek kamal",
+  "bio": "Content Creator | Future Fighter Pilot ✈️ | Founder of Quick Bites 🍔",
+  "avatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=iamvivek22_",
+  "links": [
+    {
+      "title": "Follow on Instagram",
+      "url": "https://instagram.com/iamvivek22_",
+      "icon": "fab fa-instagram"
+    },
+    {
+      "title": "Subscribe on YouTube",
+      "url": "#",
+      "icon": "fab fa-youtube"
+    },
+    {
+      "title": "Visit Quick Bites (2 PM to 10 PM)",
+      "url": "#",
+      "icon": "fas fa-store"
+    }
+  ]
+}
