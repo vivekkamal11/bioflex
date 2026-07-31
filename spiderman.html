@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Peter Parker | Sharp Glassmorphism</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        spideyRed: '#ef4444',
+                        spideyBlue: '#3b82f6',
+                    },
+                    boxShadow: {
+                        'neo': '6px 6px 0px 0px rgba(0, 0, 0, 1)',
+                        'neo-hover': '2px 2px 0px 0px rgba(0, 0, 0, 1)',
+                        'skeuo-inner': 'inset 2px 2px 6px rgba(255,255,255,0.4), inset -3px -3px 8px rgba(0,0,0,0.3)',
+                        'skeuo-card': 'inset 2px 2px 6px rgba(255,255,255,0.2), inset -4px -4px 10px rgba(0,0,0,0.7), 6px 6px 0px 0px rgba(0,0,0,1)',
+                        'glossy': '0 8px 32px 0 rgba(255, 255, 255, 0.15)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Moody City Background */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f172a;
+            background-image: url('https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?q=80&w=1080&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 450px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        /* Glossy effect for inside menu */
+        .glossy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-left: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .smooth-transform {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+        }
+        
+        .menu-overlay {
+            transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .modal {
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        
+        <!-- 1. TOP NAVBAR (Only 3 lines for Menu) -->
+        <nav class="sticky top-0 z-40 glass-nav border-b-4 border-black px-5 py-4 flex justify-between items-center shadow-neo">
+            <div class="font-display font-extrabold text-2xl tracking-widest text-white uppercase italic">
+                BIOFLEX<span class="text-spideyRed">.</span>
+            </div>
+            
+            <!-- Transparent Hamburger Menu -->
+            <button id="open-menu" class="text-white text-3xl hover:text-spideyRed transition-colors bg-transparent border-none outline-none p-1">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+
+        <div class="p-5 flex flex-col gap-8 pb-10">
+            
+            <!-- 2. PROFILE SECTION -->
+            <div class="glass-card border-4 border-black p-6 flex flex-col items-center text-center shadow-skeuo-card mt-4 rounded-none">
+                
+                <div class="w-32 h-32 border-4 border-black shadow-neo overflow-hidden mb-5 bg-white rounded-none">
+                    <img src="https://images.unsplash.com/photo-1635805737707-575885ab0820?q=80&w=500&auto=format&fit=crop" alt="Spider-Man DP" class="w-full h-full object-cover">
+                </div>
+                
+                <h1 class="font-display text-3xl font-bold uppercase tracking-tight text-white mb-1 shadow-black drop-shadow-md">Peter Parker</h1>
+                <p class="font-display text-spideyRed font-bold bg-white px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] text-xs uppercase tracking-widest mb-4 rounded-none">
+                    Friendly Neighborhood Hero
+                </p>
+                
+                <p class="text-sm font-medium text-gray-200 leading-relaxed px-2">
+                    Freelance photographer, Queens resident, and your friendly neighborhood web-slinger. I shoot webs and photos! 🕸️📸
+                </p>
+            </div>
+
+            <!-- 3. STATS (Redesigned Glowing Glass Cards) -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-black/50 backdrop-blur-md border border-[#facc15]/50 shadow-[0_0_15px_rgba(250,204,21,0.2)] p-4 text-white transform hover:-translate-y-1 transition-transform rounded-none">
+                    <i class="fa-solid fa-brain text-2xl mb-2 text-[#facc15]"></i>
+                    <h3 class="font-display font-bold text-lg leading-tight uppercase">Genius Level</h3>
+                    <p class="text-xs font-semibold mt-1 text-gray-300">IQ & Science</p>
+                </div>
+                <div class="bg-black/50 backdrop-blur-md border border-spideyRed/50 shadow-[0_0_15px_rgba(239,68,68,0.2)] p-4 text-white transform hover:-translate-y-1 transition-transform rounded-none">
+                    <i class="fa-solid fa-spider text-2xl mb-2 text-spideyRed"></i>
+                    <h3 class="font-display font-bold text-lg leading-tight uppercase">Spider Sense</h3>
+                    <p class="text-xs font-semibold mt-1 text-gray-300">Precognition</p>
+                </div>
+                <div class="col-span-2 bg-black/50 backdrop-blur-md border border-spideyBlue/50 shadow-[0_0_15px_rgba(59,130,246,0.2)] p-4 text-white flex items-center justify-between transform hover:-translate-y-1 transition-transform rounded-none">
+                    <div>
+                        <h3 class="font-display font-bold text-xl uppercase text-spideyBlue">Custom Webs</h3>
+                        <p class="text-sm font-semibold text-gray-300">Tensile Strength: 120lbs/sq in</p>
+                    </div>
+                    <i class="fa-solid fa-spray-can text-3xl text-spideyBlue"></i>
+                </div>
+            </div>
+
+            <!-- 4. GALLERY (With Zoom/Lightbox Feature) -->
+            <div class="flex flex-col gap-6 w-full">
+                <h2 class="font-display text-2xl font-bold uppercase text-white drop-shadow-lg flex items-center gap-2 bg-black/50 p-2 border-l-4 border-spideyRed">
+                    <i class="fa-solid fa-camera-retro text-spideyRed"></i> Gallery
+                </h2>
+
+                <!-- Image 1 -->
+                <div class="w-full aspect-[4/5] bg-white border-4 border-black shadow-neo overflow-hidden relative group p-2 glass-card rounded-none">
+                    <div class="w-full h-full overflow-hidden border-2 border-black rounded-none">
+                        <img src="https://images.unsplash.com/photo-1604200213928-ba3cf4fc8436?w=800&q=80&auto=format&fit=crop" class="w-full h-full object-cover zoomable-img cursor-zoom-in" alt="Spidey 1">
+                    </div>
+                    <div class="absolute bottom-6 left-6 bg-white text-black font-display font-bold px-4 py-2 border-2 border-black shadow-[4px_4px_0px_#ef4444] uppercase rounded-none pointer-events-none">Suiting Up</div>
+                </div>
+
+                <!-- Image 2 -->
+                <div class="w-full aspect-[4/5] bg-white border-4 border-black shadow-neo overflow-hidden relative group p-2 glass-card rounded-none">
+                    <div class="w-full h-full overflow-hidden border-2 border-black rounded-none">
+                        <img src="https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800&q=80&auto=format&fit=crop" class="w-full h-full object-cover zoomable-img cursor-zoom-in" alt="Spidey 2">
+                    </div>
+                    <div class="absolute bottom-6 right-6 bg-spideyBlue text-white font-display font-bold px-4 py-2 border-2 border-black shadow-[4px_4px_0px_#000] uppercase rounded-none pointer-events-none">Night Patrol</div>
+                </div>
+
+                <!-- Image 3 -->
+                <div class="w-full aspect-[4/5] bg-white border-4 border-black shadow-neo overflow-hidden relative group p-2 glass-card rounded-none">
+                    <div class="w-full h-full overflow-hidden border-2 border-black rounded-none">
+                        <img src="spd3.png.jpg" class="w-full h-full object-cover zoomable-img cursor-zoom-in" alt="Spidey 3">
+                    </div>
+                    <div class="absolute bottom-6 left-6 bg-spideyRed text-white font-display font-bold px-4 py-2 border-2 border-black shadow-[4px_4px_0px_#000] uppercase rounded-none pointer-events-none">City Views</div>
+                </div>
+
+                <!-- Image 4 -->
+                <div class="w-full aspect-[4/5] bg-white border-4 border-black shadow-neo overflow-hidden relative group p-2 glass-card rounded-none">
+                    <div class="w-full h-full overflow-hidden border-2 border-black rounded-none">
+                        <img src="spd4.png.jpg" class="w-full h-full object-cover zoomable-img cursor-zoom-in" alt="Spidey 4">
+                    </div>
+                    <div class="absolute top-6 left-6 bg-white text-black font-display font-bold px-4 py-2 border-2 border-black shadow-[4px_4px_0px_#3b82f6] uppercase rounded-none pointer-events-none">Vigilante</div>
+                </div>
+
+                <!-- Image 5 -->
+                <div class="w-full aspect-[4/5] bg-white border-4 border-black shadow-neo overflow-hidden relative group p-2 glass-card rounded-none">
+                    <div class="w-full h-full overflow-hidden border-2 border-black rounded-none">
+                        <img src="spd5.png.jpg" class="w-full h-full object-cover zoomable-img cursor-zoom-in" alt="Spidey 5">
+                    </div>
+                    <div class="absolute bottom-6 right-6 bg-[#facc15] text-black font-display font-bold px-4 py-2 border-2 border-black shadow-[4px_4px_0px_#000] uppercase rounded-none pointer-events-none">Web Slinging</div>
+                </div>
+            </div>
+
+            <!-- 5. SOCIAL LINKS -->
+            <div class="flex flex-col gap-4 mt-4 w-full">
+                <a href="#" class="w-full bg-white border-4 border-black shadow-neo p-4 flex items-center justify-between text-black outline-none smooth-transform active:translate-y-1 active:translate-x-1 active:shadow-neo-hover shadow-skeuo-inner rounded-none">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-pink-500 text-white flex items-center justify-center text-xl border-2 border-black rounded-none"><i class="fa-brands fa-instagram"></i></div>
+                        <span class="font-display font-bold uppercase tracking-wide">Bugle Photos</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+                <a href="#" class="w-full bg-white border-4 border-black shadow-neo p-4 flex items-center justify-between text-black outline-none smooth-transform active:translate-y-1 active:translate-x-1 active:shadow-neo-hover shadow-skeuo-inner rounded-none">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-600 text-white flex items-center justify-center text-xl border-2 border-black rounded-none"><i class="fa-brands fa-youtube"></i></div>
+                        <span class="font-display font-bold uppercase tracking-wide">Stark Vlogs</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- 6. FOOTER -->
+            <footer class="mt-4 py-6 border-t-4 border-white/20 text-center bg-black/60 backdrop-blur-sm">
+                <p class="font-display text-white text-xs uppercase tracking-widest font-bold">© 2026 BioFlex Agency. <br>All rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+
+    <!-- ============================================== -->
+    <!-- OVERLAYS & MODALS -->
+    <!-- ============================================== -->
+
+    <!-- LIGHTBOX FOR IMAGE ZOOM -->
+    <div id="lightbox" class="fixed inset-0 bg-black/80 backdrop-blur-md z-[200] hidden justify-center items-center p-4 cursor-zoom-out opacity-0 transition-opacity duration-300">
+        <img id="lightbox-img" src="" class="max-w-full max-h-[90vh] object-contain border-4 border-white shadow-2xl transform scale-95 transition-transform duration-300 rounded-none">
+    </div>
+
+    <!-- HAMBURGER MENU OVERLAY -->
+    <div id="side-menu" class="fixed inset-0 bg-black/70 backdrop-blur-2xl z-50 transform translate-x-full flex flex-col h-[100dvh] w-full menu-overlay">
+        
+        <div class="flex justify-between items-center px-6 py-5 border-b-4 border-white/20">
+            <h1 class="font-display font-bold text-2xl text-white uppercase tracking-widest">Menu</h1>
+            <button id="close-menu" class="text-white text-3xl hover:text-spideyRed transition-colors bg-transparent border-none outline-none p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <!-- Glossy Menu Buttons -->
+        <div class="flex flex-col px-6 py-10 gap-6">
+            <button id="open-qr" class="glossy-btn shadow-glossy p-4 flex items-center gap-4 text-white text-left hover:bg-white/20 transition-all rounded-xl outline-none">
+                <div class="w-12 h-12 bg-spideyBlue/80 text-white flex justify-center items-center text-2xl rounded-lg">
+                    <i class="fa-solid fa-qrcode"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-bold text-lg uppercase">Profile QR Code</h3>
+                    <p class="text-xs font-semibold text-gray-300">Scan to view site</p>
+                </div>
+            </button>
+
+            <button id="share-btn" class="glossy-btn shadow-glossy p-4 flex items-center gap-4 text-white text-left hover:bg-white/20 transition-all rounded-xl outline-none">
+                <div class="w-12 h-12 bg-spideyRed/80 text-white flex justify-center items-center text-2xl rounded-lg">
+                    <i class="fa-solid fa-share-nodes"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-bold text-lg uppercase">Share Profile</h3>
+                    <p class="text-xs font-semibold text-gray-300">Send to friends</p>
+                </div>
+            </button>
+
+            <a href="https://bioflex-chi.vercel.app/" target="_blank" class="glossy-btn shadow-glossy p-4 flex items-center gap-4 text-white text-left hover:bg-white/20 transition-all rounded-xl outline-none">
+                <div class="w-12 h-12 bg-[#facc15]/80 text-black flex justify-center items-center text-2xl rounded-lg">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <div>
+                    <h3 class="font-display font-bold text-lg uppercase">Get Your Own</h3>
+                    <p class="text-xs font-semibold text-gray-300">Made by BioFlex</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- QR CODE MODAL -->
+    <div id="qr-modal" class="modal fixed inset-0 bg-black/60 backdrop-blur-3xl z-[100] flex justify-center items-center p-6 h-[100dvh] w-full">
+        <div class="bg-white border-4 border-black shadow-[8px_8px_0px_#ef4444] w-full max-w-sm p-8 relative flex flex-col items-center text-center shadow-skeuo-inner rounded-none">
+            <button id="close-qr" class="absolute -top-4 -right-4 w-12 h-12 bg-black border-4 border-white shadow-neo flex justify-center items-center text-white text-xl hover:bg-gray-800 transition-transform hover:scale-110 rounded-none">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2 class="font-display text-2xl font-bold uppercase text-black mb-1 mt-2">SCAN ME</h2>
+            <p class="text-sm font-semibold text-gray-500 mb-6">Point your camera to view</p>
+            <div class="bg-gray-100 p-4 border-4 border-black shadow-inner mb-4 rounded-none">
+                <div id="qrcode"></div>
+            </div>
+            <p class="text-xs text-spideyBlue font-display font-bold tracking-widest uppercase mt-2 border-2 border-black px-3 py-1 shadow-[2px_2px_0px_#000] rounded-none">Peter Parker</p>
+        </div>
+    </div>
+
+    <script>
+        const openMenuBtn = document.getElementById('open-menu');
+        const closeMenuBtn = document.getElementById('close-menu');
+        const sideMenu = document.getElementById('side-menu');
+        const openQrBtn = document.getElementById('open-qr');
+        const closeQrBtn = document.getElementById('close-qr');
+        const qrModal = document.getElementById('qr-modal');
+        const shareBtn = document.getElementById('share-btn');
+        
+        // Lightbox Elements
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const zoomableImgs = document.querySelectorAll('.zoomable-img');
+
+        function toggleScroll(disable) { 
+            document.body.style.overflow = disable ? 'hidden' : ''; 
+        }
+
+        // Image Zoom Logic
+        zoomableImgs.forEach(img => {
+            img.addEventListener('click', () => {
+                lightboxImg.src = img.src;
+                lightbox.classList.remove('hidden');
+                lightbox.classList.add('flex');
+                
+                // Small timeout for smooth animation
+                setTimeout(() => {
+                    lightbox.classList.remove('opacity-0');
+                    lightboxImg.classList.remove('scale-95');
+                    lightboxImg.classList.add('scale-100');
+                    toggleScroll(true);
+                }, 10);
+            });
+        });
+
+        // Close Lightbox on click
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.add('opacity-0');
+            lightboxImg.classList.remove('scale-100');
+            lightboxImg.classList.add('scale-95');
+            
+            setTimeout(() => {
+                lightbox.classList.add('hidden');
+                lightbox.classList.remove('flex');
+                toggleScroll(false);
+            }, 300);
+        });
+
+        // Sidebar Logic
+        openMenuBtn.addEventListener('click', () => {
+            sideMenu.classList.remove('translate-x-full');
+            toggleScroll(true);
+        });
+        
+        closeMenuBtn.addEventListener('click', () => {
+            sideMenu.classList.add('translate-x-full');
+            toggleScroll(false);
+        });
+
+        // QR Logic
+        let qrGenerated = false;
+        openQrBtn.addEventListener('click', () => {
+            sideMenu.classList.add('translate-x-full');
+            setTimeout(() => {
+                qrModal.classList.add('active');
+                toggleScroll(true);
+                if (!qrGenerated) {
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: window.location.href, 
+                        width: 180,
+                        height: 180,
+                        colorDark : "#000000",
+                        colorLight : "#f3f4f6", 
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+                    qrGenerated = true;
+                }
+            }, 300);
+        });
+
+        closeQrBtn.addEventListener('click', () => {
+            qrModal.classList.remove('active');
+            toggleScroll(false);
+        });
+
+        qrModal.addEventListener('click', (e) => {
+            if(e.target === qrModal) {
+                qrModal.classList.remove('active');
+                toggleScroll(false);
+            }
+        });
+
+        // Share Logic
+        shareBtn.addEventListener('click', async () => {
+            const shareData = {
+                title: 'Peter Parker | Portfolio',
+                text: 'Check out this awesome Spidey Web!',
+                url: window.location.href,
+            };
+            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                try {
+                    await navigator.share(shareData);
+                } catch (err) {}
+            } else {
+                try {
+                    await navigator.clipboard.writeText(window.location.href);
+                    alert("Link copied to clipboard!");
+                } catch (err) {
+                    alert("Copy this link: " + window.location.href);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
