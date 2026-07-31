@@ -1,25 +1,10 @@
 const Razorpay = require('razorpay');
+const { THEME_PRICES } = require('./lib/themes');
 
 const instance = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-
-// Frontend me jo theme name hain, unka exact price mapping
-const THEME_PRICES = {
-  'Bio Link Basic': 199,
-  'Clean White Card': 299,
-  'Insta Creator Hub': 399,
-  'Streamer Dark Vibe': 499,
-  'Code & Portfolio': 699,
-  'Glassmorphism Pro': 899,
-  'Video Editor Grid': 1099,
-  'Photographer Studio': 1299,
-  'Corporate Bio Card': 1499,
-  'Mini Agency Showcase': 1699,
-  'Influencer VIP Page': 1899,
-  'BioFlex Ultimate Suite': 1999
-};
 
 module.exports = async (req, res) => {
   // CORS Headers (Agar Vercel par api call me koi error aaye toh ye fix karega)
@@ -36,7 +21,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { themeId } = req.body;
+    const { themeId, name = '', phone = '', email = '' } = req.body || {};
     const amount = THEME_PRICES[themeId];
 
     if (!amount) {
@@ -47,6 +32,12 @@ module.exports = async (req, res) => {
       amount: amount * 100, // Paise me convert karna zaroori hai
       currency: "INR",
       receipt: `receipt_${Date.now()}`,
+      notes: {
+        theme: themeId,
+        name: String(name).slice(0, 200),
+        phone: String(phone).slice(0, 20),
+        email: String(email).slice(0, 200)
+      }
     };
 
     const order = await instance.orders.create(options);

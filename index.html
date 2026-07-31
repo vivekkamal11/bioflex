@@ -568,7 +568,7 @@
                 </div>
                 <h4 class="text-xl font-bold text-white mb-2">Payment Successful!</h4>
                 <p class="text-sm text-slate-400 mb-8 leading-relaxed px-2">
-                    Our system has verified your payment automatically. We will contact you shortly with further details on WhatsApp.
+                    Payment confirmed via Razorpay. Ab aap apni details WhatsApp par bhej dijiye — hum 24-48 hours me aapki site live kar denge.
                 </p>
                 <a id="whatsapp-redirect-btn" href="#" target="_blank" onclick="closeCustomModal('buy-modal')" class="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20bd5a] text-white font-extrabold py-4 rounded-2xl transition shadow-[0_0_20px_rgba(37,211,102,0.3)] tracking-wide">
                     <i class="fa-brands fa-whatsapp text-xl"></i> SEND DETAILS
@@ -712,7 +712,7 @@
                 const response = await fetch('/api/create-order', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ themeId: theme })
+                    body: JSON.stringify({ themeId: theme, name: name, phone: phone, email: email })
                 });
 
                 const data = await response.json();
