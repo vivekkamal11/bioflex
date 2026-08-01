@@ -45,6 +45,19 @@ async function notify(text) {
   return null;
 }
 
+function configStatus() {
+  const missing = [];
+  if (!process.env.RAZORPAY_WEBHOOK_SECRET) missing.push('RAZORPAY_WEBHOOK_SECRET');
+  if (!process.env.TELEGRAM_BOT_TOKEN) missing.push('TELEGRAM_BOT_TOKEN');
+  if (!process.env.TELEGRAM_CHAT_ID) missing.push('TELEGRAM_CHAT_ID');
+  return {
+    telegram_token: !!process.env.TELEGRAM_BOT_TOKEN,
+    telegram_chat_id: !!process.env.TELEGRAM_CHAT_ID,
+    callmebot_apikey: !!process.env.CALLMEBOT_APIKEY,
+    missing: missing
+  };
+}
+
 module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -111,17 +124,21 @@ module.exports = async (req, res) => {
     `Order ID: ${orderId}`
   ].join('\n');
 
+  let notifyInfo;
   try {
     const via = await notify(text);
     if (via) {
       console.log('Notification sent via', via, 'for', paymentId);
+      notifyInfo = { channel: via };
     } else {
-      console.warn('No notification channel configured (set TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID or CALLMEBOT_APIKEY) for', paymentId);
+      console.warn('No notification channel configured for', paymentId);
+      notifyInfo = { channel: null, config: configStatus() };
     }
   } catch (err) {
     console.error('Notification failed:', err.message);
+    notifyInfo = { channel: null, error: err.message };
   }
 
   console.log('VERIFIED PAYMENT SUCCESSFUL!', { paymentId, orderId, theme, amountPaid, name, phone, email });
-  return res.status(200).json({ status: 'ok' });
+  return res.status(200).json({ status: 'ok', notification: notifyInfo });
 };
