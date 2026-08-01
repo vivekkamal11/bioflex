@@ -4,6 +4,8 @@ const { THEME_PRICES } = require('./lib/themes');
 const WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET;
 const WA_TO_NUMBER = process.env.WA_TO_NUMBER || '919235290796';
 const CALLMEBOT_APIKEY = process.env.CALLMEBOT_APIKEY || '';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '';
 
 function extractSignature(body, signature) {
   if (!signature) return null;
@@ -14,11 +16,33 @@ function extractSignature(body, signature) {
   }
 }
 
+async function sendTelegram(text) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return false;
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: text, disable_web_page_preview: true })
+  });
+  const body = await res.json();
+  return !!(res.ok && body && body.ok);
+}
+
 async function sendWhatsApp(text) {
   const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(WA_TO_NUMBER)}&apikey=${encodeURIComponent(CALLMEBOT_APIKEY)}&text=${encodeURIComponent(text)}`;
   const res = await fetch(url);
   const body = await res.text();
   return body.includes('Message Sent') || !/Error/i.test(body);
+}
+
+async function notify(text) {
+  const tgSent = await sendTelegram(text);
+  if (tgSent) return 'telegram';
+  if (CALLMEBOT_APIKEY) {
+    const waSent = await sendWhatsApp(text);
+    if (waSent) return 'whatsapp';
+  }
+  return null;
 }
 
 module.exports = async (req, res) => {
@@ -88,10 +112,14 @@ module.exports = async (req, res) => {
   ].join('\n');
 
   try {
-    await sendWhatsApp(text);
-    console.log('WhatsApp notification sent for', paymentId);
+    const via = await notify(text);
+    if (via) {
+      console.log('Notification sent via', via, 'for', paymentId);
+    } else {
+      console.warn('No notification channel configured (set TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID or CALLMEBOT_APIKEY) for', paymentId);
+    }
   } catch (err) {
-    console.error('WhatsApp notification failed:', err.message);
+    console.error('Notification failed:', err.message);
   }
 
   console.log('VERIFIED PAYMENT SUCCESSFUL!', { paymentId, orderId, theme, amountPaid, name, phone, email });
